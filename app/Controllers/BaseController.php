@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Models;
 
 /**
  * Class BaseController
@@ -36,17 +37,23 @@ abstract class BaseController extends Controller
      * @var array
      */
     protected $helpers = [];
+    protected $studentModel;
 
     /**
      * Constructor.
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
+        $this->helpers = array_merge($this->helpers, ['setting']);
+
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
+        $this->db                      = db_connect();
+        $this->session                 = session();
+        $this->studentModel      = new Models\Student();
     }
 }

@@ -344,17 +344,18 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form action="#" method="post" class="p-3">
+					<form action="" method="post" class="p-3">
+						<span id="login_message_area"> </span>
 						<div class="form-group">
 							<label for="recipient-name" class="col-form-label">User Name</label>
-							<input type="email" class="form-control" placeholder="User Name" name="Name" id="recipient-name" required="">
+							<input type="email" class="form-control" placeholder="User Name" name="Name" id="login_email" required="">
 						</div>
 						<div class="form-group">
 							<label for="recipient-name1" class="col-form-label">Password</label>
-							<input type="password" class="form-control" placeholder="Password" name="Name" id="recipient-name1" required="">
+							<input type="password" class="form-control" placeholder="Password" name="Name" id="login_password" required="">
 						</div>
 						<div class="right-w3l mt-4 mb-3">
-							<input type="submit" class="form-control" value="Login">
+							<button type="button" id="login_button" class="btn btn-info" >Login</button>
 						</div>
 					</form>
 
@@ -363,6 +364,8 @@
 		</div>
 	</div>
 	<!-- //Login modal -->
+
+	
 
 	<!-- Register modal -->
 	<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
@@ -417,48 +420,40 @@
 	<script src="js/main.js"></script>
 	<!-- //search-bar -->
 
-	<!-- Countdown-Timer-JavaScript -->
-	<script src="js/simplyCountdown.js"></script>
-	<!-- easy to customize -->
-	<script>
-		$('#simply-countdown-losange').simplyCountdown({
-			year: 2020,
-			month: 1,
-			day: 06
-		});
-	</script>
+
+
 	<!-- //Countdown-Timer-JavaScript -->
 
 	<!-- start-smoth-scrolling -->
 	<script src="js/SmoothScroll.min.js"></script>
 	<script type="text/javascript" src="js/move-top.js"></script>
 	<script type="text/javascript" src="js/easing.js"></script>
-	<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event){
-				event.preventDefault();
-				$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+
+	<!-- here stars scrolling icon -->
+
+	<!-- //here ends scrolling icon -->
+	<!-- start-smoth-scrolling -->
+
+	<script>
+		$("#login_button").click(function(){
+			//alert("Hello");
+			$.post("<?= url_to('loginChecker')  ?>",
+			{
+				email: document.getElementById('login_email').value,
+				password: document.getElementById('login_password').value,
+			},
+			function(data, status){
+				const obj = JSON.parse(data);
+				if (obj.status === 'error') {
+
+					$('#login_message_area').html('');
+					$('#login_message_area').html("<div class='alert alert-danger'><i class='fa fa-times'></i> "+obj.error_message+"</div>");
+					$('#login_password').val('');
+					//alert("Data: " + data + "\nStatus: " + status);
+				}
 			});
 		});
 	</script>
-	<!-- here stars scrolling icon -->
-	<script type="text/javascript">
-		$(document).ready(function() {
-			/*
-				var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear'
-				};
-			*/
-
-			$().UItoTop({ easingType: 'easeOutQuart' });
-
-			});
-	</script>
-	<!-- //here ends scrolling icon -->
-	<!-- start-smoth-scrolling -->
 
 </body>
 </html>
