@@ -36,6 +36,11 @@ class Student extends Migration
                     'constraint' => '20',
                     'null' => true,
                 ],
+                'password' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => '255',
+                    'null' => true,
+                ],
                 'address' => [
                     'type' => 'VARCHAR',
                     'constraint' => '100',
@@ -44,6 +49,7 @@ class Student extends Migration
                 'gender' => [
                     'type' => 'enum',
                     'constraint' => ['Male', 'Female'],
+                    'null' => true,
                 ],
                 'date_of_birth' => [
                     'type' => 'DATE',
@@ -67,10 +73,12 @@ class Student extends Migration
                 'marital_status' => [
                     'type' => 'enum',
                     'constraint' => ['Single', 'Married', 'Widowed', 'Divorced'],
+                    'null' => true,
                 ],
                 'religion' => [
                     'type' => 'enum',
                     'constraint' => ['Islam', 'Christianity', 'Other'],
+                    'null' => true,
                 ],
                 'created_at' => [
                     'type' => 'VARCHAR',
@@ -90,7 +98,7 @@ class Student extends Migration
             ]
         );
         $this->forge->addPrimaryKey('id');
-        $this->forge->addUniqueKey(['registration_number', 'email']);
+        $this->forge->addKey(['registration_number', 'email'], false, true);
         $this->forge->createTable('students');
     }
 

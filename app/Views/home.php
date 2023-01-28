@@ -47,9 +47,13 @@
 				<div class="col-lg-6 buttons">
 					<p><i class="fas mr-1 fa-phone"></i> +2348000000000</p>
 					<button type="button" class="btn btn-info1 btn-lg-block w3ls-btn px-4 text-capitalize mr-2" data-toggle="modal"
+						aria-pressed="false" data-target="#exampleModal1">
+						Registers
+					</button>'
+					<button type="button" class="btn btn-info1 btn-lg-block w3ls-btn px-4 text-capitalize mr-2" data-toggle="modal"
 						aria-pressed="false" data-target="#exampleModal">
-						Student Portal
-					</button>
+						Student Login
+					</button>'
 				</div>
 		</section>
 		<!-- top header -->
@@ -347,7 +351,7 @@
 					<form action="" method="post" class="p-3">
 						<span id="login_message_area"> </span>
 						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">User Name</label>
+							<label for="recipient-name" class="col-form-label">Email</label>
 							<input type="email" class="form-control" placeholder="User Name" name="Name" id="login_email" required="">
 						</div>
 						<div class="form-group">
@@ -365,8 +369,6 @@
 	</div>
 	<!-- //Login modal -->
 
-	
-
 	<!-- Register modal -->
 	<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -379,28 +381,14 @@
 				</div>
 				<div class="modal-body">
 					<form action="#" method="post" class="p-3">
+						<span id="register_message_area"> </span>
 						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">First Name</label>
-							<input type="text" class="form-control" placeholder="First Name" name="Name" id="recipient-name2" required="">
+							<label for="register_email" class="col-form-label">Email</label>
+							<input type="email" class="form-control" placeholder="Your Email Address" name="email" id="register_email" required="">
 						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Last Name</label>
-							<input type="text" class="form-control" placeholder="Last Name" name="Name" id="recipient-name3" required="">
-						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Email id</label>
-							<input type="email" class="form-control" placeholder="Email id" name="Name" id="recipient-name4" required="">
-						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Mobile Number</label>
-							<input type="text" class="form-control" placeholder="Mobile Number" name="Name" id="recipient-name5" required="">
-						</div>
-						<div class="form-group">
-							<label for="recipient-name1" class="col-form-label">Password</label>
-							<input type="password" class="form-control" placeholder="Password" name="Name" id="recipient-name6" required="">
-						</div>
+						
 						<div class="right-w3l mt-4 mb-3">
-							<input type="submit" class="form-control" value="Create account">
+							<button type="button" id="register_button" class="btn btn-info" >Login</button>
 						</div>
 					</form>
 
@@ -445,11 +433,40 @@
 			function(data, status){
 				const obj = JSON.parse(data);
 				if (obj.status === 'error') {
-
 					$('#login_message_area').html('');
 					$('#login_message_area').html("<div class='alert alert-danger'><i class='fa fa-times'></i> "+obj.error_message+"</div>");
 					$('#login_password').val('');
 					//alert("Data: " + data + "\nStatus: " + status);
+				} else if (obj.status === 'success') {
+					$('#login_message_area').html('');
+					$('#login_message_area').html("<div class='alert alert-success'><i class='fa fa-times'></i> "+obj.success_message+"</div>");
+
+					var url = "<?= url_to('studentDashboard') ?>";
+          			$(location).attr('href',url);
+				}
+			});
+		});
+
+		$("#register_button").click(function(){
+			//alert("Hello");
+			$.post("<?= url_to('registerHandler')  ?>",
+			{
+				email: document.getElementById('register_email').value,
+			},
+			function(data, status){
+				const obj = JSON.parse(data);
+				if (obj.status === 'error') {
+					$('#register_message_area').html('');
+					$('#register_message_area').html("<div class='alert alert-danger'><i class='fa fa-times'></i> "+obj.error_message+"</div>");
+					$('#register_email').val('');
+					//alert("Data: " + data + "\nStatus: " + status);
+				} else if (obj.status === 'success') {
+					$('#register_email').val('');
+					$('#register_message_area').html('');
+					$('#register_message_area').html("<div class='alert alert-success'><i class='fa fa-times'></i> "+obj.success_message+"</div>");
+
+					var url = "<?= url_to('studentDashboard') ?>";
+          			$(location).attr('href',url);
 				}
 			});
 		});

@@ -10,6 +10,7 @@ class StudentAuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
+        $session = session();
         if (!isset($_SESSION['student_logged_in'])) {
             return redirect()->to('/');
         }

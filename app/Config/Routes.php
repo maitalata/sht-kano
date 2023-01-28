@@ -42,7 +42,10 @@ $routes->get('/', 'Home::index');
 $routes->get('/management', 'Management::index');
 $routes->get('/allStudents', 'Management::allStudents');
 $routes->get('/addStudent', 'Management::addStudent', ['filter' => 'authfilters']);
+$routes->get('/pullStudentFromApplicants', 'Management::pullStudent', ['filter' => 'authfilters']);
 $routes->post('/loginChecker', 'Student::loginChecker');
+$routes->post('/registerHandler', 'Student::registerHandler');
+$routes->get('/studentLogout', 'Student::logout');
 $routes->get('/studentDashboard', 'Student::index', ['filter' => 'studentauthfilter']);
 
 service('auth')->routes($routes);

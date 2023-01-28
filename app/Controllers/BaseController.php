@@ -38,6 +38,9 @@ abstract class BaseController extends Controller
      */
     protected $helpers = [];
     protected $studentModel;
+    protected $db;
+    protected $db2;
+    protected $session;
 
     /**
      * Constructor.
@@ -52,8 +55,9 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
-        $this->db                      = db_connect();
-        $this->session                 = session();
-        $this->studentModel      = new Models\Student();
+        $this->db           = \Config\Database::connect('default');
+        $this->db2          = \Config\Database::connect('second');
+        $this->session      = session();
+        $this->studentModel = new Models\Student();
     }
 }

@@ -74,7 +74,7 @@ class NextOfKin extends Migration
                 ],
             ]
         );
-        $this->forge->addKey('id', true);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey(
             'student', 
             'students', 
