@@ -39,6 +39,11 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get('/response', 'Home::response');
+$routes->get('/setupPassword/(:num)/(:alphanum)', 'Home::setupPassword/$1/$2');
+$routes->post('/savePassword', 'Home::savePassword');
+
+$routes->get('/pdfviewer', 'Home::pdfviewer');
 $routes->get('/management', 'Management::index');
 $routes->get('/allStudents', 'Management::allStudents');
 $routes->get('/addStudent', 'Management::addStudent', ['filter' => 'authfilters']);
@@ -46,6 +51,7 @@ $routes->get('/pullStudentFromApplicants', 'Management::pullStudent', ['filter' 
 $routes->post('/loginChecker', 'Student::loginChecker');
 $routes->post('/registerHandler', 'Student::registerHandler');
 $routes->get('/studentLogout', 'Student::logout');
+$routes->get('/util', 'Student::util');
 $routes->get('/studentDashboard', 'Student::index', ['filter' => 'studentauthfilter']);
 
 service('auth')->routes($routes);

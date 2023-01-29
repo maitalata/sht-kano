@@ -38,6 +38,7 @@ abstract class BaseController extends Controller
      */
     protected $helpers = [];
     protected $studentModel;
+    protected $tokenModel;
     protected $db;
     protected $db2;
     protected $session;
@@ -59,5 +60,6 @@ abstract class BaseController extends Controller
         $this->db2          = \Config\Database::connect('second');
         $this->session      = session();
         $this->studentModel = new Models\Student();
+        $this->tokenModel   = new Models\StudentTokens();
     }
 }

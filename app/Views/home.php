@@ -439,7 +439,7 @@
 					//alert("Data: " + data + "\nStatus: " + status);
 				} else if (obj.status === 'success') {
 					$('#login_message_area').html('');
-					$('#login_message_area').html("<div class='alert alert-success'><i class='fa fa-times'></i> "+obj.success_message+"</div>");
+					$('#login_message_area').html("<div class='alert alert-success'><i class='fa fa-check'></i> "+obj.success_message+"</div>");
 
 					var url = "<?= url_to('studentDashboard') ?>";
           			$(location).attr('href',url);
@@ -463,10 +463,8 @@
 				} else if (obj.status === 'success') {
 					$('#register_email').val('');
 					$('#register_message_area').html('');
-					$('#register_message_area').html("<div class='alert alert-success'><i class='fa fa-times'></i> "+obj.success_message+"</div>");
+					$('#register_message_area').html("<div class='alert alert-success'><i class='fa fa-check'></i> "+obj.success_message+"</div>");
 
-					var url = "<?= url_to('studentDashboard') ?>";
-          			$(location).attr('href',url);
 				}
 			});
 		});

@@ -16,8 +16,8 @@ class StudentTokens extends Migration
                     'auto_increment' => true,
                 ],
                 'student' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => '80',
+                    'type'       => 'INT',
+                    'unsigned'       => true,
                 ],
                 'token' => [
                     'type' => 'VARCHAR',
@@ -48,10 +48,9 @@ class StudentTokens extends Migration
         $this->forge->addForeignKey(
             ['student'], 
             'students', 
-             ['email'], 
+             ['id'], 
             'CASCADE', 
-            'CASCADE',
-            'id'
+            'CASCADE'
         );
         $this->forge->createTable('students_tokens');
     }
