@@ -54,12 +54,34 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                 <li><a href="<?= url_to('studentDashboard') ?>"><i class="fa fa-home"></i> Home</a></li>
-                  <li><a><i class="fa fa-file-text"></i> Examination <span class="fa fa-chevron-down"></span></a>
+
+                <li><a><i class="fa fa-file-text"></i> My Information <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form.html">Payments</a></li>
-                      <li><a href="form_advanced.html">Exam Cards</a></li>
+                      <li><a href="<?= base_url('passport') ?>">Passport</a></li>
+                      <!--<li><a href="#">Other Information</a></li>-->
                     </ul>
                   </li>
+
+                  <?php if ($_SESSION['is_new'] != "YES") { ?>
+                  <li><a><i class="fa fa-file-text"></i> Examination <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <!--<li><a href="">Payments</a></li>-->
+                      <li><a href="<?= base_url('examCard') ?>">Exam Cards</a></li>
+                    </ul>
+                  </li>
+                <?php }  ?>
+
+                <?php if ($_SESSION['is_new'] == "YES") { ?>
+                  <li><a><i class="fa fa-file-text"></i> Payments <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <!--<li><a href="">Payments</a></li>-->
+                      <li><a href="<?= base_url('payAcceptance') ?>">Pay Acceptance Fee</a></li>
+                      <li><a href="<?= base_url('payMedical') ?>">Pay Medical Fee</a></li>
+                      <li><a href="<?= base_url('payRegistration') ?>">Pay Registration</a></li>
+                    </ul>
+                  </li>
+                <?php } ?>
+
                   <li><a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="general_elements.html">Change Password</a></li>

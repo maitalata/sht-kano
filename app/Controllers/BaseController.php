@@ -39,6 +39,12 @@ abstract class BaseController extends Controller
     protected $helpers = [];
     protected $studentModel;
     protected $tokenModel;
+    protected $examinationPaymentModel;
+    protected $acceptanceFeesModel;
+    protected $medicalFeesModel;
+    protected $registrationPaymentModel;
+    protected $registrationStepsModel;
+    protected $programmesModel;
     protected $db;
     protected $db2;
     protected $session;
@@ -61,5 +67,11 @@ abstract class BaseController extends Controller
         $this->session      = session();
         $this->studentModel = new Models\Student();
         $this->tokenModel   = new Models\StudentTokens();
+        $this->examinationPaymentModel   = new Models\ExaminationPayments();
+        $this->acceptanceFeesModel   = new Models\AcceptanceFees();
+        $this->medicalFeesModel   = new Models\MedicalFees();
+        $this->registrationPaymentModel   = new Models\RegistrationPayments();
+        $this->registrationStepsModel   = new Models\RegistrationSteps();
+        $this->programmesModel   = new Models\Programmes();
     }
 }

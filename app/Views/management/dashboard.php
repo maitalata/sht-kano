@@ -7,6 +7,21 @@
           <div class="row" style="" >
           <div class="tile_count" style="display:block;width:100%;" >
 
+          <?php if (session()->getFlashdata('errors')) { ?>
+            <div class="alert alert-danger " role="alert">
+              <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                <i class="fa fa-times"></i> <?= esc($error) ?>
+                <br>
+              <?php endforeach; ?>
+            </div>
+          <?php } elseif (session()->getFlashdata('success')) { ?>
+            <div class="alert alert-success " role="alert">
+              <i class="fa fa-check"></i> <?= session()->getFlashdata(
+                                            'success'
+                                          ) ?>
+            </div>
+          <?php } ?>
+
             <div class="col-lg-3 col-md-3 col-sm-4  tile_stats_count">
               <span class="count_top"><i class="fa fa-user"></i> Works</span>
               <div class="count">2500</div>

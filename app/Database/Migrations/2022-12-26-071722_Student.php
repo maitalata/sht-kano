@@ -22,10 +22,17 @@ class Student extends Migration
                 'first_name' => [
                     'type' => 'VARCHAR',
                     'constraint' => '45',
+                    'null' => true,
                 ],
                 'last_name' => [
                     'type' => 'VARCHAR',
                     'constraint' => '45',
+                    'null' => true,
+                ],
+                'fullname' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => '45',
+                    'null' => true,
                 ],
                 'email' => [
                     'type' => 'VARCHAR',
@@ -78,6 +85,21 @@ class Student extends Migration
                 'religion' => [
                     'type' => 'enum',
                     'constraint' => ['Islam', 'Christianity', 'Other'],
+                    'null' => true,
+                ],
+                'department' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => '88',
+                    'null' => true,
+                ],
+                'level' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => '45',
+                    'null' => true,
+                ],
+                'session_fee' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => '45',
                     'null' => true,
                 ],
                 'created_at' => [

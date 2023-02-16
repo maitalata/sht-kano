@@ -18,6 +18,7 @@ class Student extends Model
         'registration_number',
         'first_name',
         'last_name',
+        'fullname',
         'email',
         'phone',
         'password',
@@ -28,7 +29,14 @@ class Student extends Model
         'local_government',
         'ward',
         'marital_status',
-        'religion'
+        'religion',
+        'department',
+        'programme',
+        'session_fee',
+        'level',
+        'is_new',
+        'jamb_number',
+        'jamb_score'
     ];
 
     // Dates
@@ -40,8 +48,8 @@ class Student extends Model
 
     // Validation
     protected $validationRules      = [
-        'password' => 'required|min_length[8]',
-        'confirm' => 'required_with[password]|matches[password]',
+        'password' => 'permit_empty|min_length[8]',
+        'confirm' => 'permit_empty|required_with[password]|matches[password]',
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

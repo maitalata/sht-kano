@@ -42,6 +42,14 @@ class AuthGroups extends ShieldAuthGroups
             'title'       => 'User',
             'description' => 'General users of the site. Often customers.',
         ],
+        'bursary' => [
+            'title'       => 'User',
+            'description' => 'General users of the site. Often customers.',
+        ],
+        'admission' => [
+            'title'       => 'User',
+            'description' => 'General users of the site. Often customers.',
+        ],
         'beta' => [
             'title'       => 'Beta User',
             'description' => 'Has access to beta-level features.',

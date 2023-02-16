@@ -72,7 +72,7 @@
       <?php } ?>
 
       <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="<?= $student->first_name . " " . $student->last_name ?>" readonly>
+        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="<?= $student->fullname ?>" readonly>
         <label for="floatingInput">Student Name</label>
       </div>
 

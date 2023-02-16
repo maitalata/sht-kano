@@ -11,7 +11,7 @@ class AuthFilters implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if (!auth()->loggedIn()) {
-            return redirect()->to('manage');
+            return redirect()->to('login');
         }
     }
 

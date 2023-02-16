@@ -18,6 +18,12 @@
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -53,24 +59,34 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                <li><a href="<?= url_to('studentDashboard') ?>"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="<?= url_to('management') ?>"><i class="fa fa-home"></i> Home</a></li>
                   <li><a><i class="fa fa-users"></i> Student <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form.html">View All</a></li>
-                      <li><a href="<?= url_to('addStudent') ?>">Add Student</a></li>
+                      <li><a href="<?= url_to('allStudents') ?>">View All</a></li>
+                      <li><a href="<?= url_to('allStudents2') ?>">View All 2</a></li>
+                      <li><a href="<?= url_to('allStudents3') ?>">View All 3</a></li>
+                      <li><a href="<?= url_to('allStudents4') ?>">View All 4</a></li>
+                      <li><a href="<?= url_to('allStudents5') ?>">View All 5</a></li>
+                      <li><a href="<?= url_to('add') ?>">Add Student</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-users"></i>New Student <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="<?= url_to('allNewStudents') ?>">View All</a></li>
+                      <li><a href="<?= url_to('addNewStudent') ?>">Add New Student</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="general_elements.html">Change Password</a></li>
-                      <li><a>Edit Profile<span class="fa fa-chevron-down"></span></a>
+                      <!-- <li><a>Edit Profile<span class="fa fa-chevron-down"></span></a>
                           <ul class="nav child_menu">
                             <li class="sub_menu"><a href="level2.html">Basic Info</a>
                             </li>
                             <li><a href="#level2_1">Next of Kin</a>
                             </li>
                           </ul>
-                        </li>
+                        </li> -->
                     </ul>
                   </li>
 
@@ -228,6 +244,23 @@
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+        <!-- Datatables -->
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../vendors/jszip/dist/jszip.min.js"></script>
+    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
     
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>

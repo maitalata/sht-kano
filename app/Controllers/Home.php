@@ -42,7 +42,7 @@ class Home extends BaseController
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
         // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_RIGHT);
 
         // set auto page breaks
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -59,22 +59,39 @@ class Home extends BaseController
         // ---------------------------------------------------------
 
         // set font
-        $pdf->SetFont('times', 'BI', 20);
+        $pdf->SetFont('times', '', 20);
 
         // add a page
         $pdf->AddPage();
 
         // set some text to print
-        $txt = <<<EOD
-TCPDF Example 002
+        //         $txt = <<<EOD
+        // TCPDF Example 002
 
-Default page header and footer are disabled using setPrintHeader() and setPrintFooter() methods.
-EOD;
+        // Default page header and footer are disabled using setPrintHeader() and setPrintFooter() methods.
+        // EOD;
 
-        // print a block of text using Write()
-        $pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
+        //         // print a block of text using Write()
+        //         $pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
 
         // ---------------------------------------------------------
+        // writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+        // writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+
+        // create some HTML content
+        $html = '<div style="text-align:center;margin-top:1px;">
+        <img src="images/sht_kano_logo_no_border.jpg" alt="test alt attribute" width="100" height="100" border="0" /><>
+                <h1 style="text-align:center" >School of Health Technology, Kano</h1>
+                <p style="text-align:center;line-height:1px;" >Student Examination Card</p>
+            
+                </div>
+
+                <img src="<'.(is_file("uploads/students/passport_".$_SESSION['current_student_id']."_.jpg")?'uploads/students/passport_'.$_SESSION['current_student_id'].'_.jpg':base_url('images/avatar.png')).'" alt="Passport Picture" class="img-circle profile_img" style="width:100px;height:100px;float:left;" >
+                </div>';
+
+        // output the HTML content
+        $pdf->writeHTML($html, true, false, true, false, '');
+
 
         //Close and output PDF document
         $this->response->setHeader("Content-Type", "application/pdf");
@@ -91,7 +108,7 @@ EOD;
 
         $student = $this->tokenModel->where(['student' => $studentID, 'token' => $token])->join('students', 'students.id = students_tokens.student')->first();
 
-        if(!$student){
+        if (!$student) {
             $this->session->setFlashdata(
                 'errors',
                 [
@@ -100,7 +117,7 @@ EOD;
             );
             return redirect()->to('response');
         }
-        
+
 
         $data['student']  = $student;
 
@@ -115,24 +132,23 @@ EOD;
         $password = $this->request->getVar('password');
         $confirm = $this->request->getVar('confirm');
 
- 
-            $data = [
-                'id' => $studentID,
-                'password' => $password,
-                'confirm' => $confirm,
-            ];
 
-            $student = new \App\Entities\Student();
-           
-            $student->fill($data);
-            //dd($student);
-            if ($this->studentModel->save($student)) {
-                $this->session->setFlashdata('success', 'Password Setuo Successfully. Click <a href="'.base_url().'">Here</a> to go back to home and login ');
-                return redirect()->to('response');
-            } else {
-                $this->session->setFlashdata('errors', $this->studentModel->errors());
-                return redirect()->back()->withInput();
-            }
+        $data = [
+            'id' => $studentID,
+            'password' => $password,
+            'confirm' => $confirm,
+        ];
+
+        $student = new \App\Entities\Student();
+
+        $student->fill($data);
+        //dd($student);
+        if ($this->studentModel->save($student)) {
+            $this->session->setFlashdata('success', 'Password Setuo Successfully. Click <a href="' . base_url() . '">Here</a> to go back to home and login ');
+            return redirect()->to('response');
+        } else {
+            $this->session->setFlashdata('errors', $this->studentModel->errors());
+            return redirect()->back()->withInput();
+        }
     }
-
 }
