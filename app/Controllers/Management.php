@@ -100,6 +100,23 @@ class Management extends BaseController
         }
     }
 
+    public function saveJambInfo()
+    {
+        $data = $this->request->getPost();
+
+        $student = new \App\Entities\Student();
+        $student->fill($data);
+        if ($this->studentModel->save($student)) {
+            $stepInfo = $this->registrationStepsModel->where('student', $this->request->getPost('id'))->first();
+            $this->registrationStepsModel->where('id', $stepInfo->id)->set(['stage' => 'Confirmed By Admission Office'])->update();
+            $this->session->setFlashdata('success', 'Operation Completed successfully');
+            return redirect()->to('management');
+        } else {
+            $this->session->setFlashdata('errors', $this->studentModel->errors());
+            return redirect()->back()->withInput();
+        }
+    }
+
     public function saveNewStudent()
     {
         $data = $this->request->getPost();

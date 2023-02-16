@@ -135,18 +135,21 @@
                                             <li>Acceptance Fees - <?= $acceptance_fee->status ?></li>
                                             <li>Medical Fees -  <?= $medical_fee->status ?></li>
                                         </ul>
-                                        <?php if ($steps->stage == null) { ?>
+                                        <?php if ($steps->stage == null && auth()->user()->inGroup('bursary')) { ?>
                                              <a href="<?= base_url('confirmAcceptanceAndMedicalFees/'.$student->id) ?>" class="btn btn-success" >Confirm Acceptance And Medical Payments</a> 
                                         <?php } ?>
-                                        <form>
-                                            <input type="text" class="form-control" placeholder="JAMB Number" />
-                                            <input type="number" class="form-control" placeholder="JAMB Score" />
+                                        <?php if ($steps->stage == "Confirmed Medical and Acceptance Fees By Bursary" && auth()->user()->inGroup('admission')) { ?>
+                                        <form action="<?= base_url('saveJambInfo') ?>" method="POST">
+                                            <input type="text" name="jamb_number" class="form-control" placeholder="JAMB Number" />
+                                            <input type="number" name="jamb_score"  class="form-control" placeholder="JAMB Score" />
+                                            <input type="hidden" name="id" value="<?= $student->id ?>" />
                                            
-                                            <input type="checkbox" class="checkbox" required> Check This Box and Click Submit if All Credentials Are Cleared. Else Do Nothing
+                                            <input type="checkbox" name="cleared" class="checkbox" required> Check This Box and Click Submit if All Credentials Are Cleared. Else Do Nothing
                                            <br>
                                            <br>
                                             <button type="submit"class="btn btn-info" >Submit</button>
                                         </form>
+                                        <?php } ?>
                                       </p>
                                        <!-- end user projects -->
 

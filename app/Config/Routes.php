@@ -58,6 +58,7 @@ $routes->get('/pullStudentFromApplicants', 'Management::pullStudent', ['filter' 
 $routes->get('/add', 'Management::add', ['filter' => 'authfilters']);
 $routes->post('/saveStudent', 'Management::saveStudent', ['filter' => 'authfilters']);
 $routes->post('/saveNewStudent', 'Management::saveNewStudent', ['filter' => 'authfilters']);
+$routes->post('/saveJambInfo', 'Management::saveJambInfo', ['filter' => 'authfilters']);
 $routes->get('/editStudent/(:num)', 'Management::editStudent/$1', ['filter' => 'authfilters']);
 $routes->post('/updateStudent/(:num)', 'Management::updateStudent/$1', ['filter' => 'authfilters']);
 $routes->get('/deleteStudent/(:num)', 'Management::deleteStudent/$1', ['filter' => 'authfilters']);
