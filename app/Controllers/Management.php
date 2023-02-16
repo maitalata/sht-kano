@@ -1,9 +1,28 @@
 <?php
-
+/**
+ * Management.php the file handles all management actions and views
+ * php version 8.1
+ * 
+ * @category Controllers
+ * @package  App\Controllers
+ * @author   Umar SUnusi Maitalata <maitalata@email.com>
+ * @license  Labsity Technolohies Proprietory License
+ * @link     https://shtkano.knstate.healthcare
+ */
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
 
+/**
+ * Management Controller
+ * php version 8.1
+ * 
+ * @category Controllers
+ * @package  App\Controllers
+ * @author   Umar SUnusi Maitalata <maitalata@email.com>
+ * @license  Labsity Technolohies Proprietory License
+ * @link     https://shtkano.knstate.healthcare*
+ */
 class Management extends BaseController
 {
     public function index()
@@ -183,7 +202,7 @@ class Management extends BaseController
             $registrationSteps = new \App\Entities\MedicalFees();
             $registrationSteps->fill($registrationStepsData);
 
-            $this->regiustrationStepsModel->save($registrationSteps);
+            $this->registrationStepsModel->save($registrationSteps);
 
             $email = \Config\Services::email();
 

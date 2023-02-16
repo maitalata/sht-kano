@@ -58,8 +58,12 @@
                   <th class="column-title">Level</th>
                   <th class="column-title">Session Fee</th>
                   <th class="column-title">View Student</th>
-                  <th class="column-title">Edit</th>
-                  <th class="column-title">Delete</th>
+                  <?php if (auth()->user()->inGroup('superadmin')) { ?>
+                    <th class="column-title">Edit</th>
+                  <?php } ?>
+                  <?php if (auth()->user()->inGroup('superadmin')) { ?>
+                    <th class="column-title">Delete</th>
+                  <?php } ?>
                 </tr>
               </thead>
               <tbody>
@@ -76,18 +80,22 @@
                     <a href="<?= base_url('student/'.$student->id) ?>"  class="btn btn-success" ><i class="fa fa-user"></i></i></a>
 
                     </td>
-                    <td>
+                   
 
-                    <?php if (auth()->user()->inGroup('developer', 'beta')) { ?>
+                    <?php if (auth()->user()->inGroup('superadmin')) { ?>
+                      <td>
                       <a href="<?= base_url('editStudent/'.$student->id) ?>" class="btn btn-info" ><i class="fa fa-edit"></i></i></a>
+                      </td>
                     <?php } ?>
                   
-                    </td>
+
+                    <?php if (auth()->user()->inGroup('superadmin')) { ?>
                     <td>
-
                     <a href="<?= base_url('deleteStudent/'.$student->id) ?>" onclick="return confirm('Are you sure you want to delete this?')" class="btn btn-danger" ><i class="fa fa-times"></i></i></a>
-
                     </td>
+                    <?php } ?>
+
+                  
                   </tr>
                 <?php endforeach; ?>
 

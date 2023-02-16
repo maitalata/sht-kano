@@ -60,7 +60,8 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                 <li><a href="<?= url_to('management') ?>"><i class="fa fa-home"></i> Home</a></li>
-                  <li><a><i class="fa fa-users"></i> Student <span class="fa fa-chevron-down"></span></a>
+                <?php if (auth()->user()->inGroup('superadmin')) { ?>  
+                <li><a><i class="fa fa-users"></i> Student <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?= url_to('allStudents') ?>">View All</a></li>
                       <li><a href="<?= url_to('allStudents2') ?>">View All 2</a></li>
@@ -70,10 +71,14 @@
                       <li><a href="<?= url_to('add') ?>">Add Student</a></li>
                     </ul>
                   </li>
+                  <?php } ?>
+
                   <li><a><i class="fa fa-users"></i>New Student <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?= url_to('allNewStudents') ?>">View All</a></li>
-                      <li><a href="<?= url_to('addNewStudent') ?>">Add New Student</a></li>
+                      <?php if (auth()->user()->inGroup('superadmin')) { ?>
+                        <li><a href="<?= url_to('addNewStudent') ?>">Add New Student</a></li>
+                      <?php } ?>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
