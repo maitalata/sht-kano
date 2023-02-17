@@ -63,14 +63,15 @@ function payWithPaystack() {
   var handler = PaystackPop.setup({
     key: 'pk_live_18c729d5801ddd4d3df3b98d736a6f190a6219d3', // Replace with your public key
     email: '<?= $payment_details->email ?>',
-    amount: 5000 * 100, // the amount value is multiplied by 100 to convert to the lowest currency unit
+    amount: 5325 * 100, // the amount value is multiplied by 100 to convert to the lowest currency unit
     currency: 'NGN', // Use GHS for Ghana Cedis or USD for US Dollars
     ref: '<?= $payment_details->payment_reference ?>', // Replace with a reference you generated
+    split_code: "SPL_mqgi0izyC4",
     callback: function(response) {
       //this happens after the payment is completed successfully
       var reference = response.reference;
       alert('Payment complete! Reference: ' + reference);
-	  window.location.replace("<?= base_url('payAcceptance/'.$payment_details->applicant) ?>");
+	  window.location.replace("<?= base_url('payAcceptance/') ?>");
       // Make an AJAX call to your server with the reference to verify the transaction
     },
     onClose: function() {

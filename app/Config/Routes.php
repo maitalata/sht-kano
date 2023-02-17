@@ -76,6 +76,7 @@ $routes->get('/res', 'Student::res', ['filter' => 'studentauthfilter']);
 $routes->get('/pay', 'Student::pay', ['filter' => 'studentauthfilter']);
 $routes->get('/paymentVerify', 'Student::paymentVerify', ['filter' => 'studentauthfilter']);
 $routes->get('/payAcceptance', 'Student::payAcceptance', ['filter' => 'studentauthfilter']);
+$routes->get('/payInduction', 'Student::payInduction', ['filter' => 'studentauthfilter']);
 $routes->get('/payMedical', 'Student::payMedical', ['filter' => 'studentauthfilter']);
 $routes->get('/payRegistration', 'Student::payRegistration', ['filter' => 'studentauthfilter']);
 $routes->post('/savePassport', 'Student::savePassport', ['filter' => 'studentauthfilter']);

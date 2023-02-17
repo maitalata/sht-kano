@@ -23,11 +23,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-
-
                 <div class="col-md-8 center-margin">
-                  
-
                         <?php if (session()->getFlashdata('errors')) { ?>
                             <div class="alert alert-danger col-md-12" role="alert">
                                 <?php foreach (session()->getFlashdata('errors') as $error) : ?>
@@ -42,7 +38,7 @@
                         <?php } ?>
 
 
-                        <button class="btn btn-primary btn-lg " onclick="payWithPaystack()"> Pay Medical Fee </button>
+                        <button class="btn btn-primary btn-lg " onclick="payWithPaystack()"> Pay Induction Fee </button>
                 </div>
             </div>
         </div>
@@ -58,7 +54,7 @@ function payWithPaystack() {
   var handler = PaystackPop.setup({
     key: 'pk_live_18c729d5801ddd4d3df3b98d736a6f190a6219d3', // Replace with your public key
     email: '<?= $payment_details->email ?>',
-    amount: 3225 * 100, // the amount value is multiplied by 100 to convert to the lowest currency unit
+    amount: <?= $payment_details->amount ?> * 100, // the amount value is multiplied by 100 to convert to the lowest currency unit
     currency: 'NGN', // Use GHS for Ghana Cedis or USD for US Dollars
     ref: '<?= $payment_details->payment_reference ?>', // Replace with a reference you generated
     split_code: "SPL_mqgi0izyC4",
@@ -66,7 +62,7 @@ function payWithPaystack() {
       //this happens after the payment is completed successfully
       var reference = response.reference;
       alert('Payment complete! Reference: ' + reference);
-	  window.location.replace("<?= base_url('payMedical/') ?>");
+	  window.location.replace("<?= base_url('payInduction/') ?>");
       // Make an AJAX call to your server with the reference to verify the transaction
     },
     onClose: function() {

@@ -223,6 +223,87 @@ class Student extends BaseController
         return view('student/pay_medical', $data);
     }
 
+    public function payInduction()
+    {
+        $payment_details = $this->inductionPaymentModel->where('student', $_SESSION['current_student_id'])->first();
+
+        if (!$payment_details) {
+            $inductionFeeData = [
+                'student' => $_SESSION['current_student_id'],
+                'payment_reference' => 'SHTK' . $this->studentModel->getInsertID() . "-INDC" . mt_rand(1, 99) . '-' . mt_rand(1, 5000),
+                'amount' => 10420.10,
+                'status' => 'NOT PAID',
+            ];
+
+            $inductionFee = new \App\Entities\InductionPayments();
+            $inductionFee->fill($inductionFeeData);
+
+            $this->inductionPaymentModel->save($inductionFee);
+        }
+
+        $data['payment_details'] = $this->inductionPaymentModel->where('student', $_SESSION['current_student_id'])->join('students', 'students.id = induction_payments.student')->first();
+
+        $payment_details = $this->inductionPaymentModel->where('student', $_SESSION['current_student_id'])->first();
+
+        $applicant_details = $this->studentModel->find($_SESSION['current_student_id']);
+
+        $secret_key = "sk_live_3c90121980dd2f20d37c9370cf4a2066ff13cf37";
+
+
+        if ($payment_details) {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, [
+                CURLOPT_URL => 'https://api.paystack.co/transaction/verify/' . $payment_details->payment_reference,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => [
+                    'Authorization: Bearer ' . $secret_key . '',
+                    'Cache-Control: no-cache',
+                ],
+            ]);
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
+
+            //echo $response->status;
+
+            $response = json_decode($response);
+
+            if ($response->status) {
+                if ($response->data->status == 'success') {
+                    $this->session->setFlashdata('success', 'Your Induction Payment fee has been verified successfully by our server.');
+
+                    $pay_data = $this->inductionPaymentModel->select("medical_fees.id AS pay_id ")->where('student', $_SESSION['current_student_id'])->join('students', 'students.id = induction_payments.student')->first();
+
+                  
+                    $this->inductionPaymentModel->where('id', $pay_data->pay_id)->set(['status' => 'Paid'])->update();
+                    
+                     //dd($pay_data);
+
+                    // $this->examinationPaymentModel->update($pay_data->id, $data);
+
+
+                    // $this->home_model->update_applicant_payment($applicant, $data = ['payment' => 'PAID']);
+                    return redirect()->to('studentDashboard/');
+                } else {
+                    $this->session->setFlashdata('errors', array('Your Payment Could Not Be Verified.'));
+                    //return redirect()->to('pay/');
+                }
+            } else {
+                $this->session->setFlashdata('errors', array('Make Your Medical Payment.'));
+                //return redirect()->to('pay/');
+            }
+        }
+
+        return view('student/pay_induction', $data);
+    }
+
     public function payRegistration()
     {
         $steps = $this->registrationStepsModel->where('student', $_SESSION['current_student_id'])->first();
@@ -364,6 +445,7 @@ class Student extends BaseController
             );
             $this->session->set('current_student_id', $student->id);
             $this->session->set('is_new', $student->is_new);
+            $this->session->set('department', $student->department);
             $this->session->set('student_logged_in', true);
 
             $data = [

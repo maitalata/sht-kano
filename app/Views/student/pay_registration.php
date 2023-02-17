@@ -66,7 +66,7 @@ function payWithPaystack() {
       //this happens after the payment is completed successfully
       var reference = response.reference;
       alert('Payment complete! Reference: ' + reference);
-	  window.location.replace("<?= base_url('payRegistration/'.$payment_details->applicant) ?>");
+	  window.location.replace("<?= base_url('payRegistration/') ?>");
       // Make an AJAX call to your server with the reference to verify the transaction
     },
     onClose: function() {

@@ -67,6 +67,9 @@
                     <ul class="nav child_menu">
                       <!--<li><a href="">Payments</a></li>-->
                       <li><a href="<?= base_url('examCard') ?>">Exam Cards</a></li>
+                      <?php if (str_contains($_SESSION['department'], 'Nutrition')) { ?>
+                        <li><a href="<?= base_url('payInduction') ?>">Pay Induction</a></li>
+                      <?php } ?>
                     </ul>
                   </li>
                 <?php }  ?>
