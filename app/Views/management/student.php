@@ -142,9 +142,16 @@
                                         <form action="<?= base_url('saveJambInfo') ?>" method="POST">
                                             <input type="text" name="jamb_number" class="form-control" placeholder="JAMB Number" />
                                             <input type="number" name="jamb_score"  class="form-control" placeholder="JAMB Score" />
+
+                                          <select name="indigeneship" class="form-control"required>
+                                            <option value="" >Select Indigeneship</option>
+                                            <option value="Kano Indigene" >Kano Indigene</option>
+                                            <option value="Non-Kano Indigene" >Non-Kano Indigene</option>
+                                          </select>
+
                                             <input type="hidden" name="id" value="<?= $student->id ?>" />
                                            
-                                            <input type="checkbox" name="cleared" class="checkbox" required> Check This Box and Click Submit if All Credentials Are Cleared. Else Do Nothing
+                                            <input type="checkbox" name="cleared" class="checkbox" required> Check This Box and Click Submit if All Credentials Are Cleared. Otherwise Do Nothing
                                            <br>
                                            <br>
                                             <button type="submit"class="btn btn-info" >Submit</button>

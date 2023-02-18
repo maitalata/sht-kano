@@ -18,6 +18,7 @@ class RegistrationPayments extends Model
         'students',
         'payment_reference',
         'amount',
+        'split_code',
         'status'
     ];
 

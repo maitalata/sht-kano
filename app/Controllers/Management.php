@@ -123,6 +123,15 @@ class Management extends BaseController
     {
         $data = $this->request->getPost();
 
+        if ($this->request->getVar('indigeneship') == "Non-Kano Indigene") {
+            $studentID = $this->request->getVar('id');
+            $registrationPaymentInstance = $this->registrationPaymentModel->where('students', $studentID)->first();
+
+            $new_amount = $registrationPaymentInstance->amount + 42000;
+
+            $this->registrationPaymentModel->where('id', $registrationPaymentInstance->id)->set(['amount' => $new_amount])->update();
+        }
+
         $student = new \App\Entities\Student();
         $student->fill($data);
         if ($this->studentModel->save($student)) {
@@ -154,6 +163,9 @@ class Management extends BaseController
             } else if ($programme->tier == 2) {
                 $amount = 101200;
                 $split_code = "SPL_uwU4m55YLQ";
+            } else if ($programme->tier == 4) {
+                $amount = 126700;
+                $split_code = "SPL_ThbtaTmdUw";
             } else {
                 $amount = 90900;
                 $split_code = "SPL_xD89KmDJ1p";
