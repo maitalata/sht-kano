@@ -98,7 +98,36 @@ class Management extends BaseController
         $data['student'] = $this->studentModel->where('id', $studentID)->first();
         $data['acceptance_fee'] = $this->acceptanceFeesModel->where('student', $studentID)->first();
         $data['medical_fee'] = $this->medicalFeesModel->where('student', $studentID)->first();
-        $data['steps'] = $this->registrationStepsModel->where('student', $studentID)->first();
+        $steps = $this->registrationStepsModel->where('student', $studentID)->first();
+
+        if (!$steps) {
+
+            $registrationPaymentData = [
+                'students' => $studentID,
+                'payment_reference' => 'SHTK' . $studentID . "-REG" . mt_rand(1, 99) . '-' . mt_rand(1, 9999),
+                'amount' => 126700,
+                'split_code' => 'SPL_ThbtaTmdUw',
+                'status' => 'NOT PAID',
+            ];
+
+            $registrationPayment = new \App\Entities\RegistrationPayments();
+            $registrationPayment->fill($registrationPaymentData);
+
+            $this->registrationPaymentModel->save($registrationPayment);
+
+            $registrationStepsData = [
+                'student' => $studentID,
+            ];
+
+            $registrationSteps = new \App\Entities\RegistrationSteps();
+            $registrationSteps->fill($registrationStepsData);
+
+            $this->registrationStepsModel->save($registrationSteps);
+
+            $steps = $this->registrationStepsModel->where('student', $studentID)->first();
+        }
+
+        $data['steps'] = $steps; 
 
 
         return view('management/student', $data);
@@ -211,7 +240,7 @@ class Management extends BaseController
                 'student' => $this->studentModel->getInsertID(),
             ];
 
-            $registrationSteps = new \App\Entities\MedicalFees();
+            $registrationSteps = new \App\Entities\RegistrationSteps();
             $registrationSteps->fill($registrationStepsData);
 
             $this->registrationStepsModel->save($registrationSteps);

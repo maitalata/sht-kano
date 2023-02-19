@@ -67,23 +67,32 @@
                     <ul class="nav child_menu">
                       <!--<li><a href="">Payments</a></li>-->
                       <li><a href="<?= base_url('examCard') ?>">Exam Cards</a></li>
-                      <?php if (str_contains($_SESSION['department'], 'Nutrition')) { ?>
-                        <li><a href="<?= base_url('payInduction') ?>">Pay Induction</a></li>
+                      <?php if ($_SESSION['department'] != null || !empty($_SESSION['department'])) { ?>
+                        <?php if (str_contains($_SESSION['department'], 'Nutrition')) { ?>
+                          <li><a href="<?= base_url('payInduction') ?>">Pay Induction</a></li>
+                        <?php } ?>
                       <?php } ?>
                     </ul>
                   </li>
                 <?php }  ?>
-
-                <?php if ($_SESSION['is_new'] == "YES") { ?>
+                 
                   <li><a><i class="fa fa-file-text"></i> Payments <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <!--<li><a href="">Payments</a></li>-->
-                      <li><a href="<?= base_url('payAcceptance') ?>">Pay Acceptance Fee</a></li>
-                      <li><a href="<?= base_url('payMedical') ?>">Pay Medical Fee</a></li>
-                      <li><a href="<?= base_url('payRegistration') ?>">Pay Registration</a></li>
+                      <?php if ($_SESSION['is_new'] == "YES") { ?>
+                        <li><a href="<?= base_url('payAcceptance') ?>">Pay Acceptance Fee</a></li>
+                        <li><a href="<?= base_url('payMedical') ?>">Pay Medical Fee</a></li>
+                        <li><a href="<?= base_url('payRegistration') ?>">Pay Registration (New)</a></li>
+                      <?php } else { ?>
+
+                        <li><a href="<?= base_url('payReturningRegistration') ?>">Pay Registration (Returning)</a></li>
+                        <li><a href="<?= base_url('paySiwes') ?>">Pay SIWES Fee</a></li>
+                        <li><a href="<?= base_url('payPractical') ?>">Pay Practical Fee</a></li>
+                      <?php } ?>
+
                     </ul>
                   </li>
-                <?php } ?>
+               
 
                   <li><a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">

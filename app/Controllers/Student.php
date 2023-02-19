@@ -309,7 +309,7 @@ class Student extends BaseController
         $steps = $this->registrationStepsModel->where('student', $_SESSION['current_student_id'])->first();
 
         if ($steps->stage == null) {
-            $this->session->setFlashdata('errors', ['Make Sure You Make Acceptance and Registration Payments, then go to the Bursary for Confirmation.']);
+            $this->session->setFlashdata('errors', ['Make Sure You Make Acceptance and Medical Payments, then go to the Bursary for Confirmation.']);
             return redirect()->to('res');
         }
 
@@ -379,6 +379,99 @@ class Student extends BaseController
         }
 
         return view('student/pay_registration', $data);
+    }
+
+    public function payReturningRegistration()
+    {
+        $payment = $this->registrationPaymentModel->where('students', $_SESSION['current_student_id'])->first();
+
+        
+
+        if (!$payment) {
+            $amount = 17790;
+
+            if ($_SESSION['department'] != null || !empty($_SESSION['department'])) {
+                if (str_contains($_SESSION['department'], "HND")) {
+                    $amount = 22980;
+                }
+            }
+
+            $registrationPaymentData = [
+                'students' => $_SESSION['current_student_id'],
+                'payment_reference' => 'SHTK' . $_SESSION['current_student_id'] . "-REG-RET" . mt_rand(1, 99) . '-' . mt_rand(1, 9999),
+                'amount' => $amount,
+                'split_code' => 'SPL_ThbtaTmdUw',
+                'status' => 'NOT PAID',
+            ];
+
+            $registrationPayment = new \App\Entities\RegistrationPayments();
+            $registrationPayment->fill($registrationPaymentData);
+
+            $this->registrationPaymentModel->save($registrationPayment);
+        }
+
+
+        $data['payment_details'] = $this->registrationPaymentModel->where('students', $_SESSION['current_student_id'])->join('students', 'students.id = registration_payments.students')->first();
+
+        $payment_details = $this->registrationPaymentModel->where('students', $_SESSION['current_student_id'])->first();
+
+        $applicant_details = $this->studentModel->find($_SESSION['current_student_id']);
+
+        $secret_key = "sk_live_3c90121980dd2f20d37c9370cf4a2066ff13cf37";
+
+
+        if ($payment_details) {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, [
+                CURLOPT_URL => 'https://api.paystack.co/transaction/verify/' . $payment_details->payment_reference,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => [
+                    'Authorization: Bearer ' . $secret_key . '',
+                    'Cache-Control: no-cache',
+                ],
+            ]);
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
+
+            //echo $response->status;
+
+            $response = json_decode($response);
+
+            if ($response->status) {
+                if ($response->data->status == 'success') {
+                    $this->session->setFlashdata('success', 'Your Registration Payment has been verified successfully by our server.');
+
+                    $pay_data = $this->registrationPaymentModel->select("medical_fees.id AS pay_id ")->where('students', $_SESSION['current_student_id'])->join('students', 'students.id = registration_payments.students')->first();
+
+                  
+                    $this->registrationPaymentModel->where('id', $pay_data->pay_id)->set(['status' => 'Paid'])->update();
+                    
+                     //dd($pay_data);
+
+                    // $this->examinationPaymentModel->update($pay_data->id, $data);
+
+
+                    // $this->home_model->update_applicant_payment($applicant, $data = ['payment' => 'PAID']);
+                    return redirect()->to('studentDashboard/');
+                } else {
+                    $this->session->setFlashdata('errors', array('Your Payment Could Not Be Verified.'));
+                    //return redirect()->to('pay/');
+                }
+            } else {
+                $this->session->setFlashdata('errors', array('Make Your Registration Payment.'));
+                //return redirect()->to('pay/');
+            }
+        }
+
+        return view('student/pay_returning_registration', $data);
     }
 
     public function savePassport()
