@@ -3,13 +3,13 @@
 <?= $this->section('content') ?>
 <!-- page content -->
 <div class="right_col" role="main">
-<div class="clearfix"></div>
-	<div class="row" >
+	<div class="clearfix"></div>
+	<div class="row">
 		<div class="offset-2 col-md-8 ">
 			<div class="x_panel">
 				<div class="x_title">
 					<h2>Add Student</h2>
-					
+
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content ">
@@ -28,41 +28,47 @@
 					<br />
 					<form class="form-horizontal form-label-left" action="<?= base_url('saveNewStudent/') ?>" method="post">
 
-                    <div class="form-group  ">
-                        <label for="fullname">Fullname</label>
-							<div class=""> 
-								<input type="text" class="form-control" name="fullname" id="fullname" required >
+						<div class="form-group  ">
+							<label for="fullname">Fullname</label>
+							<div class="">
+								<input type="text" class="form-control" name="fullname" id="fullname" required>
 							</div>
 						</div>
 
-                        <div class="form-group  ">
-                        <label for="registration_number">Offer Number/Admission Number</label>
-							<div class=""> 
-								<input type="text" class="form-control" name="registration_number" id="registration_number" required >
+						<div class="form-group  ">
+							<label for="registration_number">Offer Number/Admission Number</label>
+							<div class="">
+								<input type="text" class="form-control" name="registration_number" id="registration_number" required>
 							</div>
 						</div>
 
-                        <div class="form-group  ">
-                        <label for="email">Email</label>
-							<div class=""> 
+						<div class="form-group  ">
+							<label for="email">Email</label>
+							<div class="">
 								<input type="email" class="form-control" name="email" id="email" required />
 							</div>
 						</div>
 
 						<div class="form-group  ">
-                        <label for="session_fee">Programme/Course</label>
+							<label for="session_fee">Programme/Course</label>
 							<div class="">
-                            <select name="programme" id="programme" class="form-control"  required>
+								<select name="programme" id="programme" class="form-control" required>
 									<option value="">Select Programme/Course</option>
-                                    <?php foreach ($programmes as $programme): ?>
-										<option value="<?= $programme->programme ?>" ><?= $programme->programme ?></option>
+									<?php foreach ($programmes as $programme) : ?>
+										<option value="<?= $programme->programme ?>"><?= $programme->programme ?></option>
 									<?php endforeach; ?>
-                            </select>
+								</select>
 							</div>
 						</div>
 
-                     <input type="hidden" name="level" value="1" />
-                     <input type="hidden" name="is_new" value="YES" />
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="complimentary" value="YES" class="flat"> Complimentary (Check if it is Complimenttary Student)
+							</label>
+						</div>
+
+						<input type="hidden" name="level" value="1" />
+						<input type="hidden" name="is_new" value="YES" />
 
 
 						<div class="ln_solid"></div>

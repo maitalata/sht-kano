@@ -65,10 +65,10 @@ class Student extends BaseController
 
                     $pay_data = $this->examinationPaymentModel->select("examination_payments.id AS pay_id ")->where('student', $_SESSION['current_student_id'])->join('students', 'students.id = examination_payments.student')->first();
 
-                  
+
                     $this->examinationPaymentModel->where('id', $pay_data->pay_id)->set(['payment_status' => 'Paid'])->update();
-                    
-                     //dd($pay_data);
+
+                    //dd($pay_data);
 
                     // $this->examinationPaymentModel->update($pay_data->id, $data);
 
@@ -135,10 +135,10 @@ class Student extends BaseController
 
                     $pay_data = $this->acceptanceFeesModel->select("acceptance_fees.id AS pay_id ")->where('student', $_SESSION['current_student_id'])->join('students', 'students.id = acceptance_fees.student')->first();
 
-                  
+
                     $this->acceptanceFeesModel->where('id', $pay_data->pay_id)->set(['status' => 'Paid'])->update();
-                    
-                     //dd($pay_data);
+
+                    //dd($pay_data);
 
                     // $this->examinationPaymentModel->update($pay_data->id, $data);
 
@@ -200,10 +200,10 @@ class Student extends BaseController
 
                     $pay_data = $this->medicalFeesModel->select("medical_fees.id AS pay_id ")->where('student', $_SESSION['current_student_id'])->join('students', 'students.id = medical_fees.student')->first();
 
-                  
+
                     $this->medicalFeesModel->where('id', $pay_data->pay_id)->set(['status' => 'Paid'])->update();
-                    
-                     //dd($pay_data);
+
+                    //dd($pay_data);
 
                     // $this->examinationPaymentModel->update($pay_data->id, $data);
 
@@ -281,10 +281,10 @@ class Student extends BaseController
 
                     $pay_data = $this->inductionPaymentModel->select("medical_fees.id AS pay_id ")->where('student', $_SESSION['current_student_id'])->join('students', 'students.id = induction_payments.student')->first();
 
-                  
+
                     $this->inductionPaymentModel->where('id', $pay_data->pay_id)->set(['status' => 'Paid'])->update();
-                    
-                     //dd($pay_data);
+
+                    //dd($pay_data);
 
                     // $this->examinationPaymentModel->update($pay_data->id, $data);
 
@@ -356,12 +356,12 @@ class Student extends BaseController
                 if ($response->data->status == 'success') {
                     $this->session->setFlashdata('success', 'Your Registration Payment has been verified successfully by our server.');
 
-                    $pay_data = $this->registrationPaymentModel->select("medical_fees.id AS pay_id ")->where('students', $_SESSION['current_student_id'])->join('students', 'students.id = registration_payments.students')->first();
+                    $pay_data = $this->registrationPaymentModel->select("registration_payments.id AS pay_id ")->where('students', $_SESSION['current_student_id'])->join('students', 'students.id = registration_payments.students')->first();
 
-                  
+
                     $this->registrationPaymentModel->where('id', $pay_data->pay_id)->set(['status' => 'Paid'])->update();
-                    
-                     //dd($pay_data);
+
+                    //dd($pay_data);
 
                     // $this->examinationPaymentModel->update($pay_data->id, $data);
 
@@ -384,8 +384,6 @@ class Student extends BaseController
     public function payReturningRegistration()
     {
         $payment = $this->registrationPaymentModel->where('students', $_SESSION['current_student_id'])->first();
-
-        
 
         if (!$payment) {
             $amount = 17790;
@@ -451,10 +449,10 @@ class Student extends BaseController
 
                     $pay_data = $this->registrationPaymentModel->select("medical_fees.id AS pay_id ")->where('students', $_SESSION['current_student_id'])->join('students', 'students.id = registration_payments.students')->first();
 
-                  
+
                     $this->registrationPaymentModel->where('id', $pay_data->pay_id)->set(['status' => 'Paid'])->update();
-                    
-                     //dd($pay_data);
+
+                    //dd($pay_data);
 
                     // $this->examinationPaymentModel->update($pay_data->id, $data);
 
@@ -709,6 +707,222 @@ class Student extends BaseController
         echo json_encode($data);
     }
 
+    public function util2()
+    {
+        $ref = "SHTK3-EXAM708-3051357";
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://api.paystack.co/transaction/verify/' . $ref,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Bearer sk_live_3c90121980dd2f20d37c9370cf4a2066ff13cf37',
+                'Cache-Control: no-cache',
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        //echo $response->status;
+
+        $response = json_decode($response);
+        
+
+        dd($response);
+
+    }
+
+    public function registrationReceipt()
+    {
+        $payInfo = $this->registrationPaymentModel->where('students', $_SESSION['current_student_id'])->first();
+
+        if (!$payInfo) {
+            $this->session->setFlashdata('errors', ['You Did Not Pay Your Registration Fees']);
+            return redirect()->to('res');
+        }
+
+        if ($payInfo->status == "NOT PAID") {
+            $this->session->setFlashdata('errors', ['You Did Not Pay Your Registration Fees']);
+            return redirect()->to('res');
+        }
+
+
+        $ref =  $payInfo->payment_reference;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://api.paystack.co/transaction/verify/' . $ref,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Bearer sk_live_3c90121980dd2f20d37c9370cf4a2066ff13cf37',
+                'Cache-Control: no-cache',
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        //echo $response->status;
+
+        $response = json_decode($response);
+        require_once(realpath('../vendor/tecnickcom/tcpdf/examples/tcpdf_include.php'));
+        //require_once(realpath('/home/accurane/projects/sht/vendor/tecnickcom/tcpdf/examples/tcpdf_include.php'));
+
+        //dd($response);
+
+        // create new PDF document
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Nicola Asuni');
+        $pdf->SetTitle('TCPDF Example 002');
+        $pdf->SetSubject('TCPDF Tutorial');
+        $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+        // remove default header/footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_RIGHT);
+
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(true);
+
+        // set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        // set some language-dependent strings (optional)
+        if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
+            require_once(dirname(__FILE__) . '/lang/eng.php');
+            $pdf->setLanguageArray($l);
+        }
+
+        // ---------------------------------------------------------
+
+        // set font
+        $pdf->SetFont('times', '', 20);
+
+        // add a page
+        $pdf->AddPage();
+
+        $student = $this->studentModel->where('id', $_SESSION['current_student_id'])->first();
+
+        $html = '<div style="text-align:center;margin-top:1px;">
+        <img src="images/sht_kano_logo_no_border.jpg" alt="test alt attribute" width="60" height="60" border="0" />
+        
+                <div style="text-align:center;font-weight:bold;font-size:25px;" >School of Health Technology, Kano</div>
+                <br>
+                <p style="text-align:center;line-height:1px;" >Student Registration Payment Receipt</p>
+            
+                </div>
+
+                <p>
+                    <b>Name:</b> '.$_SESSION['current_student_fullname'].' <br>
+                    <b>Email:</b> '.$_SESSION['current_student'].'<br>
+                    <b>Programme/Course:</b> '.$student->programme.'<br>
+                </p>
+                
+                <p>
+                    <table border="1" style="padding:3px;font-size:16px;">
+                      
+                        <tr>
+                            <td>Amount Paid</td><td>'.($response->data->amount/100).' NGN</td>
+                        </tr>
+
+                        <tr>
+                            <td>Payment Channel</td><td>'.$response->data->channel.' </td>
+                        </tr>
+
+                        <tr>
+                            <td>Payment Reference</td><td>'.$response->data->reference.' </td>
+                        </tr>
+
+                        <tr>
+                            <td>Payer\'s Bank</td><td>'.$response->data->authorization->bank.' </td>
+                        </tr>
+
+                        <tr>
+                            <td>Brand</td><td>'.$response->data->authorization->brand.' </td>
+                        </tr>
+
+                        <tr>
+                            <td>Card Type</td><td>'.$response->data->authorization->card_type.' </td>
+                        </tr>
+
+                        <tr>
+                            <td>Paid At</td><td>'.$response->data->paid_at.' </td>
+                        </tr>
+
+                        <tr>
+                            <td>Narration</td><td>'.(@$response->data->authorization->narration).' </td>
+                        </tr>
+
+                        <tr>
+                            <td>Sender Bank</td><td>'.(@$response->data->authorization->sender_bank).' </td>
+                        </tr>
+
+                        <tr>
+                            <td>Sender Name</td><td>'.(@$response->data->authorization->sender_name).' </td>
+                        </tr>
+
+
+                    </table>
+                </p>
+                
+              
+                
+
+                <div>
+                <br>
+                <br>
+                <br>
+                _____________________<br>
+               <span style="font-size:16px;"> Bursary Sign, Date & Stamp</span>
+                </div>
+
+                ';
+
+        // output the HTML content
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $style = array(
+            'border' => 2,
+            'vpadding' => 'auto',
+            'hpadding' => 'auto',
+            'fgcolor' => array(0, 0, 0),
+            'bgcolor' => false, //array(255,255,255)
+            'module_width' => 1, // width of a single module in points
+            'module_height' => 1 // height of a single module in points
+        );
+
+        // QRCODE,L : QR-CODE Low error correction
+        $pdf->write2DBarcode('https://shtkano.knstate.healthcare/verifyRegistrationPayment/'.$payInfo->id.'/'.$student->id, 'QRCODE,L', 160, 260, 25, 25, $style, 'N');
+
+        //Close and output PDF document
+        $this->response->setHeader("Content-Type", "application/pdf");
+        $pdf->Output('registration_payment_receipt.pdf', 'I');
+
+
+    }
+
     public function examCard()
     {
         $student = $this->studentModel->where(['id' => $_SESSION['current_student_id']])->first();
@@ -735,21 +949,22 @@ class Student extends BaseController
             $this->examinationPaymentModel->save($payment);
 
             $this->session->setFlashdata('success', 'Your Payment Reference Has Been Generated Click The Button Below To Pay');
-            return redirect()->to('pay'); 
+            return redirect()->to('pay');
         } else {
-            $examPayment = $this->examinationPaymentModel->where(['student' => $_SESSION['current_student_id']])->first();  
-            
-            
+            $examPayment = $this->examinationPaymentModel->where(['student' => $_SESSION['current_student_id']])->first();
+
+
 
             if ($examPayment->payment_status != "Paid") {
-                 return redirect()->to('paymentVerify');
+                return redirect()->to('paymentVerify');
                 $this->session->setFlashdata('success', 'Your Payment Reference Has Been Generated Click The Button Below To Pay');
                 return redirect()->to('pay');
-            } 
+            }
         }
 
         // Include the main TCPDF library (search for installation path).
         require_once(realpath('/home/accurane/projects/sht/vendor/tecnickcom/tcpdf/examples/tcpdf_include.php'));
+        //require_once(realpath('../vendor/tecnickcom/tcpdf/examples/tcpdf_include.php'));
 
         // create new PDF document
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -772,7 +987,7 @@ class Student extends BaseController
         $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_RIGHT);
 
         // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE);
+        $pdf->SetAutoPageBreak(true);
 
         // set image scale factor
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -898,7 +1113,7 @@ class Student extends BaseController
         );
 
         // QRCODE,L : QR-CODE Low error correction
-        $pdf->write2DBarcode($student->registration_number.' \n'.$student->fullname, 'QRCODE,L', 160, 260, 25, 25, $style, 'N');
+        $pdf->write2DBarcode($student->registration_number . ' \n' . $student->fullname, 'QRCODE,L', 160, 260, 25, 25, $style, 'N');
 
 
         //Close and output PDF document

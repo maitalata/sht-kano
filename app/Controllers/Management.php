@@ -41,6 +41,11 @@ class Management extends BaseController
         return view('management/add_new_student', $data);
     }
 
+    public function addNewCourse()
+    {
+        return view('management/add_new_course');
+    }
+
     public function pullStudent()
     {
         return view('management/add_from_applicants');
@@ -144,6 +149,21 @@ class Management extends BaseController
             return redirect()->to('management');
         } else {
             $this->session->setFlashdata('errors', $this->studentModel->errors());
+            return redirect()->back()->withInput();
+        }
+    }
+
+    public function saveNewCourse()
+    {
+        $data = $this->request->getPost();
+
+        $course = new \App\Entities\Course();
+        $course->fill($data);
+        if ($this->coursesModel->save($course)) {
+            $this->session->setFlashdata('success', 'Course Saved successfully');
+            return redirect()->to('management');
+        } else {
+            $this->session->setFlashdata('errors', $this->coursesModel->errors());
             return redirect()->back()->withInput();
         }
     }

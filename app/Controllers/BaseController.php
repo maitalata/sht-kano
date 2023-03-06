@@ -46,6 +46,7 @@ abstract class BaseController extends Controller
     protected $registrationStepsModel;
     protected $programmesModel;
     protected $inductionPaymentModel;
+    protected $coursesModel;
     protected $db;
     protected $db2;
     protected $session;
@@ -75,5 +76,6 @@ abstract class BaseController extends Controller
         $this->registrationStepsModel   = new Models\RegistrationSteps();
         $this->programmesModel   = new Models\Programmes();
         $this->inductionPaymentModel   = new Models\InductionPayments();
+        $this->coursesModel   = new Models\Course();
     }
 }

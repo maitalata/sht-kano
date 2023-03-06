@@ -125,6 +125,41 @@ class Home extends BaseController
         return view('set_password', $data);
     }
 
+    public function verifyRegistrationPayment($payID, $studentID)
+    {
+        //dd($_SESSION['student_logged_in']);
+
+        $payInfo = $this->registrationPaymentModel->where(['registration_payments.id' => $payID, 'registration_payments.students' => $studentID])->join('students', 'students.id = registration_payments.students')->first();
+
+        if (!$payInfo) {
+            $this->session->setFlashdata(
+                'errors',
+                [
+                    'Invalid Link',
+                ]
+            );
+            return redirect()->to('response');
+        }
+
+        if ($payInfo->status == "Paid") {
+            $this->session->setFlashdata(
+                'success',
+                $payInfo->fullname.' Has Made Their Payment',                
+            );
+            return redirect()->to('response');
+        } else {
+            $this->session->setFlashdata(
+                'errors',
+                [
+                    'Student Did Not Pay',
+                ]
+            );
+            return redirect()->to('response');
+        }
+
+
+    }
+
     public function savePassword()
     {
         //dd($_POST);

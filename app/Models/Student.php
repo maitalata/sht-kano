@@ -36,7 +36,8 @@ class Student extends Model
         'level',
         'is_new',
         'jamb_number',
-        'jamb_score'
+        'jamb_score',
+        'complimentary'
     ];
 
     // Dates

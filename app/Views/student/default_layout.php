@@ -76,7 +76,7 @@
                   </li>
                 <?php }  ?>
                  
-                  <li><a><i class="fa fa-file-text"></i> Payments <span class="fa fa-chevron-down"></span></a>
+                <li><a><i class="fa fa-file-text"></i> Payments <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <!--<li><a href="">Payments</a></li>-->
                       <?php if ($_SESSION['is_new'] == "YES") { ?>
@@ -86,12 +86,42 @@
                       <?php } else { ?>
 
                         <li><a href="<?= base_url('payReturningRegistration') ?>">Pay Registration (Returning)</a></li>
-                        <li><a href="<?= base_url('paySiwes') ?>">Pay SIWES Fee</a></li>
-                        <li><a href="<?= base_url('payPractical') ?>">Pay Practical Fee</a></li>
+                        <!-- <li><a href="<?= base_url('paySiwes') ?>">Pay SIWES Fee</a></li>
+                        <li><a href="<?= base_url('payPractical') ?>">Pay Practical Fee</a></li> -->
                       <?php } ?>
 
                     </ul>
-                  </li>
+                </li>
+
+                <li><a><i class="fa fa-file-text"></i> Receipts <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <!--<li><a href="">Payments</a></li>-->
+                        <li><a href="<?= base_url('registrationReceipt') ?>">Registration Receipt</a></li>
+                        <li><a href="#">All My Receipts</a></li>
+                       
+                     
+                    </ul>
+                </li>
+
+                <li><a><i class="fa fa-file-text"></i> Course Registration <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <!--<li><a href="">Payments</a></li>-->
+                     
+                        <li><a href="#">Regiser Courses</a></li>
+                        <li><a href="#">Edit My Courses</a></li>
+                       
+                    </ul>
+                </li>
+
+                <li><a><i class="fa fa-file-text"></i> My Docs <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <!--<li><a href="">Payments</a></li>-->
+                     
+                        <li><a href="#">CRF</a></li>
+                        <li><a href="#">ID Card</a></li>
+                       
+                    </ul>
+                </li>
                
 
                   <li><a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
